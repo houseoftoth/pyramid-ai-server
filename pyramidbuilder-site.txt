@@ -1,0 +1,3 @@
+pyramidbuilder-site/
+├── index.html         ← includes grid + JS with fetch to Render backend
+├── /assets            ← optional: audio, icons, fonts, etc.
