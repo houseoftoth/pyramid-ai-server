@@ -7,16 +7,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Optional sanity check endpoint
+app.get('/', (req, res) => {
+  res.send('🧠 Pyramid AI Server is live.');
+});
+
 app.post('/api/ai', async (req, res) => {
   try {
     const { agent, term, symbol } = req.body;
 
-    // Generate GPT prompt
     const prompt = `You are Agent ${agent}, an AI embedded in a quantum grid interface. 
     A user clicked a cell associated with the term "${term}" and the symbol "${symbol}". 
     Provide a one-sentence paranormal interpretation or advanced physics insight.`;
 
-    // Call OpenAI API using axios
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
@@ -50,6 +53,6 @@ app.post('/api/ai', async (req, res) => {
   }
 });
 
-// Start the server
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🔥 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🔥 Pyramid AI Server running on port ${PORT}`));
