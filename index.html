@@ -1,53 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quantum Activation Portal - Mirrorportal Operation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pyramid AI Interface</title>
   <style>
-    /* 🧪 your massive style block goes here (unchanged) */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: monospace;
+      overflow: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    #controls {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #controls button {
+      background: black;
+      color: cyan;
+      border: 1px solid cyan;
+      padding: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .glyph, .binary, .sigil, .alien, .formula {
+      position: absolute;
+      pointer-events: none;
+      color: #0ff;
+      font-size: 16px;
+    }
+    #moonPhase, #planetAlignments {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 4px;
+      z-index: 999;
+    }
+    #planetAlignments { top: 40px; }
+    @keyframes drift {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+    .binary { animation: drift 15s linear forwards; }
   </style>
 </head>
-
 <body>
+  <canvas id="universe"></canvas>
 
-  <!-- 🔊 Background Audio -->
-  <iframe id="bg-audio" src="https://www.youtube.com/embed/qwQsyEZPgmU?autoplay=1&loop=1&playlist=qwQsyEZPgmU&controls=0&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-  <!-- 🛸 Symbols -->
-  <div id="ufo">🛸</div>
-  <div id="eyeRa">𓂀</div>
-  <div id="pyramid">🔺</div>
-
-  <!-- 🎛 Controls -->
   <div id="controls">
-    <button onclick="toggleOverlay('cross')">Toggle Cross Lines</button>
-    <button onclick="toggleOverlay('parallel')">Toggle Parallel Lines</button>
-    <button onclick="toggleOverlay('planes')">Toggle Plane Layers</button>
-    <button onclick="toggleOverlay('pulse')">Toggle Pulse Matrix</button>
-    <button onclick="toggleOverlay('recursive')">Toggle Recursive Cognition</button>
-    <button onclick="toggleOverlay('physics')">Toggle Physics Simulation</button>
-    <button onclick="resetEntanglement()">Reset Entanglement</button>
-    <button onclick="spawnSymbol()">Spawn Sigil/Formula</button>
-    <button onclick="queryAI('IAModuleAgent', 'dielectric-diamagnetic ball', '⟁')">Test GPT Agent</button>
+    <button onclick="toggleOverlay('matrix')">Spawn Matrix Overlay</button>
+    <button onclick="toggleOverlay('parallel')">Toggle Parallel Plane</button>
+    <button onclick="toggleOverlay('cross')">Spawn Cross Grid</button>
+    <button onclick="spawnFibonacci()">Fibonacci Trail</button>
+    <button onclick="spawnPlasma()">Plasma Pulse</button>
+    <button onclick="spawnUFO()">Spawn UFO</button>
+    <button onclick="askAI()">Activate AI Agent</button>
+    <button onclick="resetEntanglement()">RESET ENTANGLEMENT</button>
   </div>
 
-  <!-- 🔍 Query Input Panel -->
-  <div id="operation-panel">
-    <input id="agent" placeholder="Agent">
-    <input id="term" placeholder="Quantum Term">
-    <input id="symbol" placeholder="Symbol">
-    <button onclick="performAIQuery()">Query Pyramid AI Server</button>
+  <div id="moonPhase">🌙 Moon: Loading...</div>
+  <div id="planetAlignments">🪐 Alignments: Syncing...</div>
+
+  <div id="audio-player" style="display: none;">
+    <iframe
+      src="https://www.youtube.com/embed/qwQsyEZPgmU?autoplay=1&loop=1&playlist=qwQsyEZPgmU&controls=0&mute=0"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
 
-  <!-- 💬 AI Output -->
-  <div id="operation-result"></div>
-
-  <!-- 🧠 Canvas and Scripts -->
-  <canvas id="planes"></canvas>
   <script>
-    // 💡 your full script block remains as-is
-  </script>
+    const canvas = document.getElementById('universe');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
+    const overlays = { matrix: false, parallel: false, cross: false };
+
+    function drawUniverse() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (overlays.matrix) {
+        ctx.strokeStyle = 'rgba(0,255,0,0.2)';
+        for (let i = 0; i < canvas.width; i += 40) {
+          ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+        }
+        for (let j = 0; j < canvas.height; j += 40) {
+          ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
+        }
+      }
+
+      if (overlays.parallel) {
+        ctx.strokeStyle = 'rgba(255,0,0,0.2)';
+        for (let y = 0; y < canvas.height; y += 25) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+        }
+      }
+
+      if (overlays.cross) {
+        ctx.strokeStyle = 'rgba(0,0,255,0.2)';
+        for (let i = 0; i < canvas.width; i += 100) {
+          ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(canvas.width - i, canvas.height); ctx.stroke();
+        }
+      }
+
+      requestAnimationFrame(drawUniverse);
+    }
+    drawUniverse();
+
+    function toggleOverlay(type) {
+      overlays[type] = !overlays[type];
+    }
+
+    function spawnFibonacci() {
+      let f0 = 1, f1 = 1;
+      for (let i = 0; i < 10; i++) {
+        const value = f0 + f1;
+        createFloatingText(`Φ = ${value}`, 'formula');
+        f0 = f1;
+        f1 = value;
+      }
+    }
+
+    function spawnPlasma() {
+      createFloatingText('⚡ Plasma Surge ⚡', 'sigil');
+    }
+
+    function spawnUFO() {
+      createFloatingText('🛸', 'alien');
+    }
+
+    function resetEntanglement() {
+      document.querySelectorAll('.glyph, .binary, .sigil, .alien, .formula').forEach(el => el.remove());
+    }
+
+    function createFloatingText(text, className) {
+      const div = document.createElement('div');
+      div.className = className;
+      div.style.left = Math.random() * window.innerWidth + 'px';
+      div.style.top = Math.random() * window.innerHeight + 'px';
+      div.textContent = text;
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 12000);
+    }
+
+    function spawnBinaryCode() {
+      createFloatingText(Math.random() > 0.5 ? '0' : '1', 'binary');
+    }
+    setInterval(spawnBinaryCode, 250);
+
+    function askAI() {
+      const term = prompt("Enter term to interpret:");
+      if (!term) return;
+      fetch('https://pyramid-ai-server-1.onrender.com/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agent: 'TOTH', term, symbol: '𐘂' })
+      })
+      .then(res => res.json())
+      .then(data => createFloatingText(`👁 ${data.reply}`, 'sigil'))
+      .catch(err => createFloatingText('⚠️ AI Offline', 'sigil'));
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
